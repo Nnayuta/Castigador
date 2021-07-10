@@ -1,6 +1,5 @@
-.glitchdotcom.json
-.node-gyp
-node_modules
+node_modules/
+package-lock.json/
 .vscode
 .vs
 .env
