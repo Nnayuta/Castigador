@@ -1,0 +1,22 @@
+{
+    "Hgznnn": {
+      "AgentsMain": [
+        "Astra",
+        "Jett",
+        "Killjoy",
+        "Sage"
+      ],
+      "rank": "Prata 3",
+      "maxRank": "Ouro 1"
+    },
+    "Predo": {
+      "AgentsMain": [
+        "Sova",
+        "Omen",
+        "Reyna",
+        "Jett"
+      ],
+      "rank": "Ouro 1",
+      "maxRank": "Ouro 2"
+    }
+  }
