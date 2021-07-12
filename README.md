@@ -1,3 +1,3 @@
 # Castigador
 
-Bot criado como uma "brincadeira/piada" para um servidor de discord
+Bot criado como uma "brincadeira" para um servidor de discord
