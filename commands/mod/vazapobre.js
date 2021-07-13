@@ -6,7 +6,7 @@ module.exports = {
     cooldown: 120, // Valor em segundos
     permlevel: 2, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
     description: "Expulsa um pobre da call",
-    async execute(client, message, cmd, args, Discord) {
+    async execute(client, message, cmd, args, Discord, profileData) {
 
     message.delete().catch();
 

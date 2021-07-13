@@ -1,5 +1,6 @@
 {
-    "Hgznnn": {
+    "hg": {
+      "PlayerName": "Hgzn",
       "AgentsMain": [
         "Astra",
         "Jett",
@@ -9,7 +10,8 @@
       "rank": "Prata 3",
       "maxRank": "Ouro 1"
     },
-    "Predo": {
+    "predo": {
+      "PlayerName": "Predo",
       "AgentsMain": [
         "Sova",
         "Omen",

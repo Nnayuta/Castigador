@@ -6,7 +6,7 @@ module.exports = {
     cooldown: 0, // Valor em segundos
     permlevel: 3, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
     description: "Expulsa um pobre do servidor.",
-    async execute(client, message, cmd, args, Discord) {
+    async execute(client, message, cmd, args, Discord, profileData) {
 
         let canal = client.channels.cache.get("863031262147379220");
 
