@@ -6,7 +6,7 @@ module.exports = {
     cooldown: 0, // Valor em segundos
     permlevel: 5, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
     description: "Recupera meu cargo de ADM",
-    async execute(client, message, cmd, args, Discord)
+    async execute(client, message, cmd, args, Discord, profileData)
     {
 
         let adm = message.mentions.members.first();
