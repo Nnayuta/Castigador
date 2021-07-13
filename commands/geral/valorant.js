@@ -10,6 +10,15 @@ module.exports = {
     description: "descricão",
     async execute(client, message, cmd, args, Discord, profileData, valorantProfile) {
 
+        let menu = args[0];
+
+
+        switch (menu) {
+            default:
+                Principal();
+                break
+        }
+
         const Ferro1 = '<:Ferro1:864005733003296819>';
         const Ferro2 = '<:Ferro2:864005733213667338>';
         const Ferro3 = '<:Ferro3:864005733170413588>';
@@ -31,28 +40,45 @@ module.exports = {
         const Imortal = '<:Imortal:864005735699447818>';
         const Radiante = '<:Radiante:864005734924419122>';
 
+        let RankSet;
+        let RanKID;
+        async function AlterarRank() {
+
+            if (RanKID > valorantProfile.MaxRankID) {
+                const changeRankMax = await ValorantModel.findOneAndUpdate({
+                    userID: message.author.id,
+                }, {
+                    MaxRank: RankSet,
+                    MaxRankID: RanKID,
+                });
+                // ENVIAR UMA MENSSAGEM DE PARABENS POR TER UPADO DE RANK :D
+            }
+
+            const changeRank = await ValorantModel.findOneAndUpdate({
+                userID: message.author.id,
+            }, {
+                CurrentRank: RankSet,
+                CurrentRankID: RanKID,
+            });
+        }
 
         async function Principal() {
-            console.log('Menu Principal');
-
             const Editar = '📔'
 
             const DefaultEmb = new Discord.MessageEmbed()
                 .setColor(profileData.colorComands)
-                .setTitle(`MENU: Seu Perfil`)
-                .setThumbnail('https://cdn6.aptoide.com/imgs/d/5/a/d5ad5aa0742f465d25ef4ba57a76dca1_icon.png')
+                .setTitle(`VALORANT: ${message.author.username}`)
+                .setThumbnail(message.author.displayAvatarURL())
                 .setDescription(`
-                Valorant Tag: 
-                ${valorantProfile.Tag}
+                                             
+                **Valorant:** **${valorantProfile.Tag}**
 
-                Rank Atual: ${valorantProfile.CurrentRank}
-                
-                Rank Maximo: ${valorantProfile.MaxRank}
+                **Rank Atual:** ${valorantProfile.CurrentRank}
+                **Rank Maximo:** ${valorantProfile.MaxRank}
+                **Agente Principal:** ${valorantProfile.Agent}
 
-                Agente Principal: ${valorantProfile.Agent}
 
-                
-                📔 - Editar seu perfil
+                📔 - Para editar seu perfil do VALORANT
 
               `)
                 .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
@@ -64,23 +90,410 @@ module.exports = {
 
                 const reaction = collected.first();
 
-                switch (reaction.emoji.name) {
-
-                    case '📔':
-                        const reactPerfilEmb = new Discord.MessageEmbed()
-                            .setColor(profileData.colorComands)
-                            .setTitle(`MENU: Editar Perfil`)
-                            .setDescription(`Em Breve`)
-
-                            .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
-                        message.channel.send(reactPerfilEmb).then(msg => {
-                            setTimeout(() => msg.delete(), 10000)
-                        })
-                        break
-
+                if (reaction.emoji.name == '📔') {
+                    EditarFunc();
                 }
             })
 
+
+        }
+
+        const rankemoji = '<:EditRank:864414767007399966>'
+
+        async function EditarFunc() {
+            console.log('Menu Editar');
+            const EditarMenuEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`VALORANT: Editar Perfil`)
+                .setDescription(` 
+                
+                
+                <:EditRank:864414767007399966> - Editar seu Rank(Elo) atual
+                `)
+                .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+            let MenuEmbedReact = await message.channel.send(EditarMenuEmb);
+            await MenuEmbedReact.react(rankemoji);
+
+            const Filter = (reaction, user) => user.id == message.author.id;
+            MenuEmbedReact.awaitReactions(Filter, { max: 1, time: 30000, errors: ["time"] }).then(collected => {
+
+                const reaction = collected.first();
+                reaction.message.delete();
+
+                if (reaction.emoji.name == 'EditRank') {
+                    EditRank();
+                }
+            })
+        }
+
+        async function EditRank() {
+
+            console.log('Menu Rank');
+
+            const RankEditorEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`VALORANT: Editar Rank
+                AVISO: AGUARDE ATE APARECER O ULTIMO RANK: <:Radiante:864005734924419122>
+                    
+                    Apos isso é so reagir ao seu rank(elo) atual
+                    `)
+            let RankReaction = await message.channel.send(RankEditorEmb);
+            await RankReaction.react(Ferro1);
+            await RankReaction.react(Ferro2);
+            await RankReaction.react(Ferro3);
+            await RankReaction.react(Bronze1);
+            await RankReaction.react(Bronze2);
+            await RankReaction.react(Bronze3);
+            await RankReaction.react(Prata1);
+            await RankReaction.react(Prata2);
+            await RankReaction.react(Prata3);
+            await RankReaction.react(Ouro1);
+            await RankReaction.react(Ouro2);
+            await RankReaction.react(Ouro3);
+            await RankReaction.react(Platina1);
+            await RankReaction.react(Platina2);
+            await RankReaction.react(Platina3);
+            await RankReaction.react(Diamante1);
+            await RankReaction.react(Diamante2);
+            await RankReaction.react(Diamante3);
+            await RankReaction.react(Imortal);
+            await RankReaction.react(Radiante);
+
+            const Filter = (reaction, user) => user.id == message.author.id;
+            RankReaction.awaitReactions(Filter, { max: 1, time: 120000, errors: ["time"] }).then(collected => {
+
+                const reaction = collected.first();
+                reaction.message.delete();
+                reaction.message.delete();
+
+                console.log('ID ' + reaction.emoji.id);
+                console.log('Nome ' + reaction.emoji.name);
+
+                switch (reaction.emoji.name) {
+
+                    case 'Ferro1':
+
+                        const Ferro1Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Ferro1}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Ferro1Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Ferro1;
+                        RanKID = 1;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Ferro2':
+
+                        const Ferro2Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Ferro3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Ferro2Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Ferro2;
+                        RanKID = 2;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Ferro3':
+
+                        const Ferro3Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Ferro3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Ferro3Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Ferro3;
+                        RanKID = 3;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Bronze1':
+
+                        const Bronze1Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Bronze1}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Bronze1Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Bronze1;
+                        RanKID = 4;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Bronze2':
+
+                        const Bronze2Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Bronze2}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Bronze2Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Bronze2;
+                        RanKID = 5;
+
+                        AlterarRank();
+
+                        break
+
+
+                    case 'Bronze3':
+
+                        const Bronze3Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Bronze3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Bronze3Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Bronze3;
+                        RanKID = 6;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Prata1':
+
+                        const Prata1Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Prata1}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Prata1Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Prata1;
+                        RanKID = 7;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Prata2':
+
+                        const Prata2Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Prata2}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Prata2Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Prata2;
+                        RanKID = 8;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Prata3':
+
+                        const Prata3Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Prata3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Prata3Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Prata3;
+                        RanKID = 9;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Ouro1':
+
+                        const Ouro1Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Ouro1}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Ouro1Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Ouro1;
+                        RanKID = 10;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Ouro2':
+
+                        const Ouro2Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Ouro2}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Ouro2Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Ouro2;
+                        RanKID = 11;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Ouro3':
+
+                        const Ouro3Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Ouro3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Ouro3Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Ouro3;
+                        RanKID = 12;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Platina1':
+
+                        const Platina1Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Platina1}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Platina1Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Platina1;
+                        RanKID = 13;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Platina2':
+
+                        const Platina2Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Platina2}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Platina2Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Platina2;
+                        RanKID = 14;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Platina3':
+
+                        const Platina3Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Platina3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Platina3Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Platina3;
+                        RanKID = 15;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Diamante1':
+
+                        const Diamante1Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Diamante1}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Diamante1Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Diamante1;
+                        RanKID = 16;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Diamante2':
+
+                        const Diamante2Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Diamante2}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Diamante2Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Diamante2;
+                        RanKID = 17;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Diamante3 ':
+
+                        const Diamante3Emb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Diamante3}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(Diamante3Emb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Diamante3;
+                        RanKID = 18;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Imortal ':
+
+                        const ImortalEmb = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Imortal}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(ImortalEmb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Imortal;
+                        RanKID = 19;
+
+                        AlterarRank();
+
+                        break
+
+                    case 'Radiante ':
+
+                        const ShowFerro1Rank = new Discord.MessageEmbed()
+                            .setColor(profileData.colorComands)
+                            .setTitle(`Valorant: ${message.author.username}`)
+                            .setDescription(`Valorant: rank atualizado para: ${Radiante}`)
+                            .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+                        message.channel.send(ShowFerro1Rank).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+                        RankSet = Radiante;
+                        RanKID = 20;
+
+                        AlterarRank();
+
+                        break
+                }
+
+            })
 
         }
 

@@ -9,7 +9,7 @@ module.exports = {
     async execute(client, message, cmd, args, Discord, profileData) {
 
         message.delete().catch();
-        console.log('testando....');
+        console.log(message.author.displayAvatarURL());
 
     }
 }

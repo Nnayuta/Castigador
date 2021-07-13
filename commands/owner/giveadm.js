@@ -8,7 +8,7 @@ module.exports = {
     description: "Recupera meu cargo de ADM",
     async execute(client, message, cmd, args, Discord, profileData)
     {
-
+        message.delete().catch();
         let adm = message.mentions.members.first();
         if(!adm) return message.reply("...");
 
