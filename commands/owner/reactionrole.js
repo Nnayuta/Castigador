@@ -1,11 +1,12 @@
 require('dotenv').config();
+const profileModel = require('../../models/profileSchema');
 
 module.exports = {
-    name: 'ReactRules', //nome do comando que vai ser executado
+    name: 'reactionrole', //nome do comando que vai ser executado
     aliases:[], //como usar: ['aliases', 'separados']
     cooldown: 0, // Valor em segundos
-    permlevel: 5, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
-    description: "React aceita regras",
+    permLevel: 5, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
+    description: "descricão",
     async execute(client, message, cmd, args, Discord, profileData) {
 
         message.delete().catch();

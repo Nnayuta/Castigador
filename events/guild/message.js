@@ -42,6 +42,8 @@ module.exports = async (Discord, client, message) => {
                     CurrentRank: 'ferro1',
                     MaxRank: 'ferro1',
                     Agent: 'agent',
+                    CurrentRankID: 0,
+                    MaxRankID: 0,
 
                 })
         }
