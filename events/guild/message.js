@@ -44,6 +44,7 @@ module.exports = async (Discord, client, message) => {
                     Agent: 'agent',
                     CurrentRankID: 0,
                     MaxRankID: 0,
+                    RoleMain: 'Necessario Selecionar',
 
                 })
         }

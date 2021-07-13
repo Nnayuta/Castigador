@@ -9,6 +9,7 @@ const valorantSchema = new mongoose.Schema({
     MaxRank: {type: String},
     MaxRankID: {type: Number},
     Agent: {type: String},
+    RoleMain: {type: String},
 })
 
 const model = mongoose.model('ValorantModels', valorantSchema);

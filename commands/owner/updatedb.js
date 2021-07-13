@@ -17,8 +17,7 @@ module.exports = {
                     serverID: message.guild.id,
 
                 }, {
-                    CurrentRankID: 0,
-                    MaxRankID: 0,
+                    RoleMain: 'Nenhuma',
                 })
         }
     }

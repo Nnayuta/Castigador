@@ -11,19 +11,43 @@ module.exports = {
     async execute(client, message, cmd, args, Discord, profileData, valorantProfile) {
 
         let menu = args[0];
+        const targetinfo = message.mentions.users.first();
 
 
         switch (menu) {
             default:
                 Principal();
                 break
+
+            case 'tag':
+                EditTagNew();
+                break
         }
+
+        const Yoru = '<:Yoru:863724767805964309>';
+        const Viper = '<:Viper:863724767784992788>';
+        const Sova = '<:Sova:863724767777783828>';
+        const Skye = '<:Skye:863724767587860511>';
+        const Sage = '<:Sage:863724768184107028>';
+        const Reyna = '<:Reyna:863724767667814462>';
+        const Raze = '<:Raze:863724767780929556>';
+        const Phoenix = '<:Phoenix:863724767974653972>';
+        const Omen = '<:Omen:863724767819595776>';
+        const Killjoy = '<:Killjoy:863724767805833257>';
+        const KAYO = '<:KAYO:863724767836110849>';
+        const Jett = '<:Jett:863724767717359626>';
+        const Cypher = '<:Cypher:863724767361237024>';
+        const Brimstone = '<:Brimstone:863724767822479390>';
+        const Breach = '<:Breach:863724767693504532>';
+        const Astra = '<:Astra:863724767730597909>';
+
+        // ============================================== \\
 
         const Ferro1 = '<:Ferro1:864005733003296819>';
         const Ferro2 = '<:Ferro2:864005733213667338>';
         const Ferro3 = '<:Ferro3:864005733170413588>';
         const Bronze1 = '<:Bronze1:864005733035933716>';
-        const Bronze2 = '<:Bronze2:864005733196496917>';
+        const Bronze2 = '<:Bronze2:864005733397430282>';
         const Bronze3 = '<:Bronze3:864005733196496917>';
         const Prata1 = '<:Prata1:864005733166743552>';
         const Prata2 = '<:Prata2:864005732881793045>';
@@ -65,22 +89,60 @@ module.exports = {
         async function Principal() {
             const Editar = '📔'
 
+            if (targetinfo) {
+                const TargetData = await ValorantModel.findOne({ userID: targetinfo.id });
+                console.log(targetinfo.id);
+                if (!TargetData) return message.reply('Pobre não encontrado');
+
+                const TargetDefaultEmb = new Discord.MessageEmbed()
+                    .setColor(profileData.colorComands)
+                    .setTitle(`VALORANT: ${targetinfo.username}`)
+                    .setThumbnail(targetinfo.displayAvatarURL())
+                    .setDescription(`
+
+                **Valorant:** **${TargetData.Tag}**
+                \u200B
+                        ** - AGENTES E CLASSE -**
+                \u200B
+                **Classe:** ${TargetData.RoleMain}
+                **Agente Principal:** ${TargetData.Agent}
+                \u200B
+                         **- RANK (ELO) -**
+                \u200B
+                **Rank Atual:** ${TargetData.CurrentRank}
+                **Rank Maximo:** ${TargetData.MaxRank}
+                \u200B
+                \u200B
+              `)
+
+                    .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+             message.channel.send(TargetDefaultEmb);
+
+                return
+            }
+
             const DefaultEmb = new Discord.MessageEmbed()
                 .setColor(profileData.colorComands)
                 .setTitle(`VALORANT: ${message.author.username}`)
                 .setThumbnail(message.author.displayAvatarURL())
                 .setDescription(`
-                                             
-                **Valorant:** **${valorantProfile.Tag}**
 
+                **Valorant:** **${valorantProfile.Tag}**
+                \u200B
+                        ** - AGENTES E CLASSE -**
+                \u200B
+                **Classe:** ${valorantProfile.RoleMain}
+                **Agente Principal:** ${valorantProfile.Agent}
+                \u200B
+                         **- RANK (ELO) -**
+                \u200B
                 **Rank Atual:** ${valorantProfile.CurrentRank}
                 **Rank Maximo:** ${valorantProfile.MaxRank}
-                **Agente Principal:** ${valorantProfile.Agent}
-
-
-                📔 - Para editar seu perfil do VALORANT
-
+                \u200B
+                \u200B
+                📔- Para editar seu perfil do VALORANT
               `)
+
                 .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
             let MenuEmbed = await message.channel.send(DefaultEmb);
             await MenuEmbed.react(Editar);
@@ -98,21 +160,31 @@ module.exports = {
 
         }
 
-        const rankemoji = '<:EditRank:864414767007399966>'
+        const rankemoji = '<:EditRank:864414767007399966>';
+        const tagemoji = '🎚️';
+        const agenEmoji = '🔫';
+        const classEmoji = '💸';
 
         async function EditarFunc() {
             console.log('Menu Editar');
             const EditarMenuEmb = new Discord.MessageEmbed()
                 .setColor(profileData.colorComands)
-                .setTitle(`VALORANT: Editar Perfil`)
+                .setTitle(`VALORANT: Editar ${message.author.username} Perfil`)
                 .setDescription(` 
-                
-                
+                \u200B
                 <:EditRank:864414767007399966> - Editar seu Rank(Elo) atual
+                🎚️ - Para saber como alterar sua ValorantTag
+                🔫 - Para editar seu agente principal
+                💸 - para editar sua classe exemplo: Duelista
+                \u200B
+                \u200B
                 `)
                 .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
             let MenuEmbedReact = await message.channel.send(EditarMenuEmb);
             await MenuEmbedReact.react(rankemoji);
+            await MenuEmbedReact.react(tagemoji);
+            await MenuEmbedReact.react(agenEmoji);
+            await MenuEmbedReact.react(classEmoji);
 
             const Filter = (reaction, user) => user.id == message.author.id;
             MenuEmbedReact.awaitReactions(Filter, { max: 1, time: 30000, errors: ["time"] }).then(collected => {
@@ -122,7 +194,16 @@ module.exports = {
 
                 if (reaction.emoji.name == 'EditRank') {
                     EditRank();
+                } else if (reaction.emoji.name == '🎚️') {
+                    EditTag();
                 }
+                else if (reaction.emoji.name == '🔫') {
+                    AgentMain();
+                } else if (reaction.emoji.name == '💸') {
+                    RoleMain();
+                }
+
+
             })
         }
 
@@ -133,7 +214,7 @@ module.exports = {
             const RankEditorEmb = new Discord.MessageEmbed()
                 .setColor(profileData.colorComands)
                 .setTitle(`VALORANT: Editar Rank
-                AVISO: AGUARDE ATE APARECER O ULTIMO RANK: <:Radiante:864005734924419122>
+                Aguarde o bot reagir a todos os ranks o ultimo é o: <:Radiante:864005734924419122>
                     
                     Apos isso é so reagir ao seu rank(elo) atual
                     `)
@@ -497,6 +578,225 @@ module.exports = {
 
         }
 
+        async function EditTag() {
+
+            console.log('Menu Tag');
+
+            const RankEditorEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`
+                VALORANT: Editar Tag
+
+                Digite: $val tag tag#123
+                    `)
+            message.channel.send(RankEditorEmb);
+
+        }
+
+        async function EditTagNew() {
+            const Vtag = args.slice(1).join(" ");
+
+            const changeTag = await ValorantModel.findOneAndUpdate({
+                userID: message.author.id,
+            }, {
+                Tag: Vtag,
+            });
+
+            message.reply(`sua valorant tag foi atualizada para: ${Vtag}`)
+
+        }
+
+        let NovoAgent;
+        async function UpdateAgent() {
+            const changeagentmain = await ValorantModel.findOneAndUpdate({
+                userID: message.author.id,
+            }, {
+                Agent: NovoAgent,
+            });
+
+            const AgentupdateEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`Valorant: ${message.author.username}`)
+                .setDescription(`Valorant: Agente principal atualizado para: ${NovoAgent}`)
+                .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+            message.channel.send(AgentupdateEmb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+        }
+
+        async function AgentMain() {
+
+            console.log('Menu Editar Agente Principal');
+            const EditarMenuEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`VALORANT: Editar Perfil`)
+                .setDescription(` 
+            
+                Aguarde até aparecer o ultimo agente -> ${Astra} <-
+
+                `)
+                .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+            let MenuEmbedReact = await message.channel.send(EditarMenuEmb);
+            await MenuEmbedReact.react(Yoru);
+            await MenuEmbedReact.react(Viper);
+            await MenuEmbedReact.react(Sova);
+            await MenuEmbedReact.react(Skye);
+            await MenuEmbedReact.react(Sage);
+            await MenuEmbedReact.react(Reyna);
+            await MenuEmbedReact.react(Raze);
+            await MenuEmbedReact.react(Phoenix);
+            await MenuEmbedReact.react(Omen);
+            await MenuEmbedReact.react(Killjoy);
+            await MenuEmbedReact.react(KAYO);
+            await MenuEmbedReact.react(Jett);
+            await MenuEmbedReact.react(Cypher);
+            await MenuEmbedReact.react(Brimstone);
+            await MenuEmbedReact.react(Breach);
+            await MenuEmbedReact.react(Astra);
+
+
+            const Filter = (reaction, user) => user.id == message.author.id;
+            MenuEmbedReact.awaitReactions(Filter, { max: 1, time: 30000, errors: ["time"] }).then(collected => {
+
+                const reaction = collected.first();
+                reaction.message.delete();
+
+                if (reaction.emoji.name == 'Yoru') {
+                    NovoAgent = Yoru;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Viper') {
+                    NovoAgent = Viper;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Sova') {
+                    NovoAgent = Sova;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Skye') {
+                    NovoAgent = Skye;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Sage') {
+                    NovoAgent = Sage;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Reyna') {
+                    NovoAgent = Reyna;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Phoenix') {
+                    NovoAgent = Phoenix;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Omen') {
+                    NovoAgent = Omen;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Killjoy') {
+                    NovoAgent = Killjoy;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'KAYO') {
+                    NovoAgent = KAYO;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Jett') {
+                    NovoAgent = Jett;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Cypher') {
+                    NovoAgent = Cypher;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Brimstone') {
+                    NovoAgent = Brimstone;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Breach') {
+                    NovoAgent = Breach;
+                    UpdateAgent();
+
+                } else if (reaction.emoji.name == 'Astra') {
+                    NovoAgent = Astra;
+                    UpdateAgent();
+
+                }
+
+            })
+
+
+        }
+
+        let MainRoleUpdate;
+
+        async function UpdateRoleMain() {
+
+            const changeRole = await ValorantModel.findOneAndUpdate({
+                userID: message.author.id,
+            }, {
+                RoleMain: MainRoleUpdate,
+            });
+
+            const AgentupdateEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`Valorant: ${message.author.username}`)
+                .setDescription(`Valorant: sua classe foi alterada para: ${MainRoleUpdate}`)
+                .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+            message.channel.send(AgentupdateEmb).then(msg => { setTimeout(() => msg.delete(), 120000) });
+
+        }
+
+
+        const ControllerClass = '<:ControllerClass:864581773485015070>';
+        const DuelistClass = '<:DuelistClass:864581773388283905>';
+        const InitiatorClass = '<:InitiatorClass:864581773399818280>';
+        const SentinelClass = '<:SentinelClass:864581773455130664>';
+
+        async function RoleMain() {
+
+            console.log('Menu Editar Agente Principal');
+            const EditarMenuEmb = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`VALORANT: Editar Perfil`)
+                .setDescription(` 
+            
+                Aguarde até aparecer a ultimo classe aparecer -> ${SentinelClass} <-
+
+                `)
+                .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+            let MenuEmbedReact = await message.channel.send(EditarMenuEmb);
+            await MenuEmbedReact.react(ControllerClass);
+            await MenuEmbedReact.react(DuelistClass);
+            await MenuEmbedReact.react(InitiatorClass);
+            await MenuEmbedReact.react(SentinelClass);
+
+
+            const Filter = (reaction, user) => user.id == message.author.id;
+            MenuEmbedReact.awaitReactions(Filter, { max: 1, time: 30000, errors: ["time"] }).then(collected => {
+
+                const reaction = collected.first();
+                reaction.message.delete();
+
+                if (reaction.emoji.name == 'ControllerClass') {
+                    MainRoleUpdate = ControllerClass;
+                    UpdateRoleMain();
+
+                } else if (reaction.emoji.name == 'DuelistClass') {
+                    MainRoleUpdate = DuelistClass;
+                    UpdateRoleMain();
+
+                } else if (reaction.emoji.name == 'InitiatorClass') {
+                    MainRoleUpdate = InitiatorClass;
+                    UpdateRoleMain();
+
+                } else if (reaction.emoji.name == 'SentinelClass') {
+                    MainRoleUpdate = SentinelClass;
+                    UpdateRoleMain();
+
+                }
+
+            })
+
+        }
 
     }
 }
