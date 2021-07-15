@@ -12,20 +12,18 @@ module.exports = {
         const PerfilMenu = args[0];
 
 
-        switch(PerfilMenu){
+        switch (PerfilMenu) {
 
-            default: 
-            message.reply("FOI MAL POBRE ISSO AINDA ESTA EM DESENVOLVIMENTO").then(msg => {
-                msg.delete({ timeout: 10000 })
-              })
-            break
+            default:
+                VerSeuPerfil();
+                break
 
             case 'cor':
                 ColorPerfil();
                 break
         }
 
-        async function AtualizarCorPerfil(PerfilCorID){
+        async function AtualizarCorPerfil(PerfilCorID) {
             const ChangeColor1 = await profileModel.findOneAndUpdate({
                 userID: message.author.id,
             }, {
@@ -34,7 +32,7 @@ module.exports = {
 
             message.reply('Sua cor de perfil foi atualizada :D').then(msg => {
                 msg.delete({ timeout: 10000 })
-              });
+            });
         }
 
         async function ColorPerfil() {
@@ -77,5 +75,18 @@ module.exports = {
 
 
         }
+
+        async function VerSeuPerfil() {
+            const SeuPerfil = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setTitle(`Perfil ${message.author.username}`)
+                
+
+
+
+        }
+
+
+
     }
 }

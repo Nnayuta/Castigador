@@ -13,6 +13,7 @@ module.exports = async (Discord, client, message) => {
     try {
         profileData = await profileModel.findOne({ userID: message.author.id });
         if (!profileData) {
+            message.reply('Seu perfil de pobre ainda não estava registrado sistema. Use o comando novamente :D');
             let profile = await profileModel.create
                 ({
                     userID: message.author.id,

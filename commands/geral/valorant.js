@@ -19,7 +19,7 @@ module.exports = {
                 Principal();
                 break
 
-            case 'tag':
+            case 'nick':
                 EditTagNew();
                 break
         }
@@ -587,7 +587,7 @@ module.exports = {
                 .setTitle(`
                 VALORANT: Editar Tag
 
-                Digite: $val tag tag#123
+        Exemplo: Digite: $val nick suatag#br1
                     `)
             message.channel.send(RankEditorEmb);
 
@@ -602,7 +602,7 @@ module.exports = {
                 Tag: Vtag,
             });
 
-            message.reply(`sua valorant tag foi atualizada para: ${Vtag}`)
+            message.reply(`seu valorant nick foi atualizada para: ${Vtag}`)
 
         }
 

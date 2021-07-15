@@ -18,10 +18,5 @@ mongoose.connect(process.env.MONGODB_SRV, {
     console.log('Database Conectada')
 }).catch((err) => { console.log(err); });
 
-let Dev = true;
 
-if (Dev == true) {
-    client.login('ODY0NTcwMTA4OTczOTQwNzM3.YO3XqA.432gV0QCMCehtDknmUqwLkLOOPU');
-} else if (Dev == false) {
-    client.login(process.env.DISCORD_TOKEN);
-}
+client.login(process.env.DISCORD_TOKEN);
