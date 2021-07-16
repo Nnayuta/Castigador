@@ -2,6 +2,9 @@ const profileModel = require('../../models/profileSchema');
 const Canvas = require('canvas');
 const DD = require('discord.js');
 
+const { registerFont, createCanvas } = require('canvas')
+registerFont('./fonts/Minecrafter.Alt.ttf', { family: 'Minecrafter Alt' })
+
 module.exports = async (client, Discord, member) => {
 
     let profileData;
@@ -36,7 +39,7 @@ module.exports = async (client, Discord, member) => {
         let fontSize = 70;
 
         do {
-            context.font = `${fontSize -= 10}px sans-serif`;
+            context.font = `${fontSize -= 10}px Minecrafter Alt`;
         } while (context.measureText(text).width > canvas.width - 300);
 
         return context.font;
@@ -66,7 +69,7 @@ module.exports = async (client, Discord, member) => {
     const canvas2 = Canvas.createCanvas(470, 100);
     context.drawImage(BemVindo, 220, 0, canvas2.width, canvas2.height);
 
-    context.font = applyText(canvas, `${member.displayName}!`);
+    context.font = applyText(canvas, `${member.displayName}`);
     context.fillStyle = profileData.colorComands;
     context.fillText(`${member.displayName}!`, canvas.width / 2.0, canvas.height / 1.5);
 

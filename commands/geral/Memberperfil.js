@@ -79,10 +79,23 @@ module.exports = {
         async function VerSeuPerfil() {
             const SeuPerfil = new Discord.MessageEmbed()
                 .setColor(profileData.colorComands)
-                .setTitle(`Perfil ${message.author.username}`)
-                
+                .setAuthor(`Perfil de ${message.author.nickname}`, message.author.displayAvatarURL())
+                .setThumbnail(message.author.displayAvatarURL())
+                .setDescription(
+                    `
+                🪙 - PobreCoin:
+                ~ ${profileData.coins}
+                \u200B
+                🔱 - Nivel:
+                ~ ${profileData.Level}
+                 \u200B
+                🎂 - Aniversário:
+                ~ ${profileData.Birthday}
 
+                `
+                )
 
+            message.channel.send(SeuPerfil);
 
         }
 
