@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const botDB = require('../../models/botschema');
 
 module.exports = async (Discord, client, message) => {
 

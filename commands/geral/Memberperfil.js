@@ -77,23 +77,52 @@ module.exports = {
         }
 
         async function VerSeuPerfil() {
+
+            let permname;
+
+            switch (profileData.permLevel) {
+
+                case '1':
+
+                    break
+
+                case '2':
+
+                    break
+
+                case '3':
+
+                    break
+                case '4':
+
+                    break
+
+                case '5':
+
+                    break
+
+            }
+
             const SeuPerfil = new Discord.MessageEmbed()
                 .setColor(profileData.colorComands)
                 .setAuthor(`Perfil de ${message.author.nickname}`, message.author.displayAvatarURL())
                 .setThumbnail(message.author.displayAvatarURL())
                 .setDescription(
                     `
+                \u200B
+                ‼️ - Permissão
+                ~ ${permname}
+                \u200B
                 🪙 - PobreCoin:
                 ~ ${profileData.coins}
                 \u200B
                 🔱 - Nivel:
                 ~ ${profileData.Level}
-                 \u200B
+                \u200B
                 🎂 - Aniversário:
                 ~ ${profileData.Birthday}
 
-                `
-                )
+                `)
 
             message.channel.send(SeuPerfil);
 
