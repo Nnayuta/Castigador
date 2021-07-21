@@ -10,6 +10,7 @@ const profileSchema = new mongoose.Schema({
     colorComands: { type: String, default: 'RANDOM' },
     Birthday: { type: Date },
     Description: {type: String},
+    Imposto: {type: Number, default: 0},
 })
 
 const model = mongoose.model('ProfileModels', profileSchema);

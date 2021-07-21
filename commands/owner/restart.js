@@ -2,8 +2,8 @@ require('dotenv').config();
 const profileModel = require('../../models/profileSchema');
 
 module.exports = {
-    name: 'restart', //nome do comando que vai ser executado
-    aliases:['reiniciar'], //como usar: ['aliases', 'separados']
+    name: 'res', //nome do comando que vai ser executado
+    aliases:['restart'], //como usar: ['aliases', 'separados']
     cooldown: 0, // Valor em segundos
     permLevel: 5, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
     description: "descricão",

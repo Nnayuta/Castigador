@@ -1,33 +1,31 @@
 require('dotenv').config();
 const profileModel = require('../../models/profileSchema');
 
+//BOT FAZER BARULHOS ALEATORIOS QUANDO FOR ENVIADOS PRO CASTIGO
+
 module.exports = {
     name: 'castigo', //nome do comando que vai ser executado
-    aliases:[], //como usar: ['aliases', 'separados']
-    cooldown: 0, // Valor em segundos
+    aliases: ['cas'], //como usar: ['aliases', 'separados']
+    cooldown: 2, // Valor em segundos
     permLevel: 2, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
-    description: "descricão",
+    description: "Envia alguem para o castigo!",
     async execute(client, message, cmd, args, Discord, profileData) {
 
-        //DELETAR O COMANDO APOS SER ENVIADO.
-        message.delete().catch();
+        const role = message.guild.roles.cache.find(r => r.name === "Castigo");
+        const member = message.mentions.members.first();
 
-        if (message.mentions.members.size === 0)
-            return message.reply("Você não marcou quem eu deveria mandar pro castigo... é pra castigar todo mundo?").then(function (message) {
-                message.react("👍")
-            }).catch(function () {
-                message.reply("Tudo bem punindo todo mundo...");
-            });;
+        if (!member) return message.reply("Você precisa mencionar um pobre para ser enviado para o castigo!");
 
-        if (!message.guild.me.permissions.has("MOVE_MEMBERS"))
-            return message.reply("");
+        const timer = args[1];
 
-        let role = message.guild.roles.cache.find(r => r.name === "Castigo");
-        let member = message.mentions.members.first();
-        let canalatual = member.voice.channel.id;
+        if (!timer) return message.reply("Você precisa definir um tempo entre 0 e 60 segundos, Exemplo: $castigo @pobre 30");
+        if (timer > 60) return message.reply("Esqueceu que você é pobre e não tem poder? ");
+        const temporeal = timer * 1000;
+
+        const canalatual = member.voice.channel.id;
         member.roles.add(role).catch(console.error);
 
-        message.channel.send(message.mentions.users.first().toString() + " Vai para o castigo pobre.")
+        message.channel.send(message.mentions.users.first().toString() + " Pobre foi pra fila do SUS");
 
         //Conectar o usuario a este canal para castigalo
         member.voice.setChannel("857488932212178964").catch(console.error);
@@ -37,24 +35,23 @@ module.exports = {
 
         if (!channel) return console.error("Este canal não existe");
         channel.join().then(connection => {
-            console.log("Estou castigando alguem");
+            console.log("Pobre enviado para fila do SUS");
         }).catch(e => {
             console.error(e);
         });
 
-        // TEMPO DO CASTIGO
-        setTimeout(() => {
+        setTimeout(() => { removedocastigo(); }, temporeal);
+        async function removedocastigo() {
 
-            //REMOVENDO O CARGO DE CASTIGO
-            member.roles.remove(role).catch(console.error);
-            //MENSSAGEM AUTOMATICA
-            message.channel.send("Tudo bem... você já pode sair");
-            //DISCONECTANDO O BOT DO CANAL DE CASTIGO
-            channel.leave();
-            //DISCONECTANDO QUEM FOI ENVIADO E ENVIANDO DE VOLTA PRO CANAL ANTERIOR
-            member.voice.setChannel(canalatual).catch(console.error);
+            await member.roles.remove(role).catch(console.error);
+            await message.channel.send(message.mentions.users.first().toString() + " Pobre saindo da fila do SUS <:RIP:867245265996087296>");
+            await member.voice.setChannel(canalatual).catch(console.error);
+            await channel.leave();
 
+            console.log("CASTIGO TERMINADO :D");
+        }
 
-        }, 10000);// 10 segundos em milesegundos
+        //DELETAR O COMANDO APOS SER ENVIADO.
+        message.delete().catch();
     }
 }

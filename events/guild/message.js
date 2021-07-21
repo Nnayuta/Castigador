@@ -1,8 +1,7 @@
 require('dotenv').config();
 const profileModel = require('../../models/profileSchema');
 const ValorantModel = require('../../models/valorantSchema');
-
-const cooldowns = new Map();
+const cooldown = require('../../models/cooldown');
 
 module.exports = async (Discord, client, message) => {
     const prefix = process.env.PREFIX;
@@ -23,6 +22,7 @@ module.exports = async (Discord, client, message) => {
                     permLevel: 0,
                     colorComands: 'RANDOM',
                     Level: 0,
+                    Imposto: 0,
                 })
         }
     } catch (err) {
@@ -62,47 +62,54 @@ module.exports = async (Discord, client, message) => {
     const command = client.commands.get(cmd) ||
         client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
+    const userInfo = await profileModel.findOne({ userID: message.author.id });
+    const CommandPerm = command.permLevel;
 
-    const PredoOtario = command.permLevel;
-
-    try {
-        let permLeveldata = await profileModel.findOne({ userID: message.author.id });
-        console.log('permLeveldata.permLevel ' + permLeveldata.permLevel);
-        console.log('command.permLevel: ' + PredoOtario);
-
-        if (permLeveldata.permLevel >= PredoOtario) {
-            // ================================================================================================================================== \\
-            //                                                      ADICIONA COOLDOWN AO COMANDO                                                   \\
-            if (!cooldowns.has(command.name)) {
-                cooldowns.set(command.name, new Discord.Collection());
+        async function commandExecute() {
+            if (userInfo.permLevel < CommandPerm) return message.reply('Você não tem permissão para usar este comando');
+            try {
+                command.execute(client, message, cmd, args, Discord, profileData, valorantProfile);
+            } catch (err) {
+                message.reply("Não disponivel"); console.log(err);
             }
+        }
 
+        if (command.cooldown) {
             const current_time = Date.now();
-            const time_stamps = cooldowns.get(command.name);
-            const cooldown_amout = (command.cooldown) * 1000;
+            const cooldown_amount = (command.cooldown) * 1000
 
-            if (time_stamps.has(message.author.id)) {
-                const expiration_time = time_stamps.get(message.author.id) + cooldown_amout;
+            cooldown.findOne({ userId: message.author.id, cmd: command.name }, async (err, data) => {
+                if (data) {
+                    const expiration_time = data.time + cooldown_amount;
 
-                if (current_time < expiration_time) {
-                    const time_left = (expiration_time - current_time) / 1000;
+                    if (current_time < expiration_time) {
+                        const time_left = (expiration_time - current_time) / 1000
 
-                    return message.reply(`Seu pobre os comandos não sao de graça então aguarde ${time_left.toFixed(1)} segundos para poder usar o comando ${command.name} novamente.`);
+                        if (time_left.toFixed(1) >= 3600) {
+                            let hour = (time_left.toFixed(1) / 3600);
+                            return message.reply(`Pobres precisam esperar ${parseInt(hour)} horas para usar novamente \`${command.name}\`!`)
+                        }
+                        if (time_left.toFixed(1) >= 60) {
+                            let minute = (time_left.toFixed(1) / 60);
+                            return message.reply(`Pobres precisam esperar ${parseInt(minute)} minutos para usar novamente \`${command.name}\`!`)
+                        }
+                        let seconds = (time_left.toFixed(1));
+                        return message.reply(`Pobres precisam esperar ${parseInt(seconds)} segundos para usar novamente \`${command.name}\`!`)
+                    } else {
+                        await cooldown.findOneAndUpdate({ userId: message.author.id, cmd: command.name }, { time: current_time });
+                        commandExecute();
+                    }
+                } else {
+                    commandExecute();
+                    new cooldown({
+                        userId: message.author.id,
+                        cmd: command.name,
+                        time: current_time,
+                        cooldown: command.cooldown,
+                    }).save();
                 }
-            }
-
-            time_stamps.set(message.author.id, current_time);
-            setTimeout(() => time_stamps.delete(message.author.id), cooldown_amout);
-
-            // ======================================================================================= \\
-
-            try { command.execute(client, message, cmd, args, Discord, profileData, valorantProfile); } catch (err) { message.reply("Não disponivel"); console.log(err); }
-        }
-        else {
-            message.reply('Você é muito pobre por isso não tem permissão para fazer isso!');
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
+            })
+        } else {
+            commandExecute();
+        };
 }

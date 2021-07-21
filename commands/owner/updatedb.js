@@ -10,15 +10,15 @@ module.exports = {
     description: "descricão",
     async execute(client, message, cmd, args, Discord, profileData, valorantProfile) {
 
-
-        if (valorantProfile) {
-            let profile = await ValorantModel.updateMany
-                ({
-                    serverID: message.guild.id,
-
-                }, {
-                    RoleMain: 'Nenhuma',
-                })
-        }
+        // if (valorantProfile) {
+        //     let profile = await ValorantModel.updateMany
+        //         ({
+        //             serverID: message.guild.id,
+        //
+        //                }, {
+        //                   
+        //             })
+        //       }
     }
+
 }
