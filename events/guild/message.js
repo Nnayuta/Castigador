@@ -65,8 +65,9 @@ module.exports = async (Discord, client, message) => {
     const userInfo = await profileModel.findOne({ userID: message.author.id });
     const CommandPerm = command.permLevel;
 
+    if (userInfo.permLevel < CommandPerm) return message.reply('Você não tem permissão para usar este comando');
+
         async function commandExecute() {
-            if (userInfo.permLevel < CommandPerm) return message.reply('Você não tem permissão para usar este comando');
             try {
                 command.execute(client, message, cmd, args, Discord, profileData, valorantProfile);
             } catch (err) {

@@ -4,7 +4,7 @@ const ValorantModel = require('../../models/valorantSchema');
 
 module.exports = {
     name: 'valorantaccount', //nome do comando que vai ser executado
-    aliases: ['val', 'valorant', 'vava',], //como usar: ['aliases', 'separados']
+    aliases: ['val', 'valorant', 'vava', 'devval'], //como usar: ['aliases', 'separados']
     cooldown: 0, // Valor em segundos
     permLevel: 0, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
     description: "descricão",
@@ -659,68 +659,9 @@ module.exports = {
                 const reaction = collected.first();
                 reaction.message.delete();
 
-                if (reaction.emoji.name == 'Yoru') {
-                    NovoAgent = Yoru;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Viper') {
-                    NovoAgent = Viper;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Sova') {
-                    NovoAgent = Sova;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Skye') {
-                    NovoAgent = Skye;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Sage') {
-                    NovoAgent = Sage;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Reyna') {
-                    NovoAgent = Reyna;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Phoenix') {
-                    NovoAgent = Phoenix;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Omen') {
-                    NovoAgent = Omen;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Killjoy') {
-                    NovoAgent = Killjoy;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'KAYO') {
-                    NovoAgent = KAYO;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Jett') {
-                    NovoAgent = Jett;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Cypher') {
-                    NovoAgent = Cypher;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Brimstone') {
-                    NovoAgent = Brimstone;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Breach') {
-                    NovoAgent = Breach;
-                    UpdateAgent();
-
-                } else if (reaction.emoji.name == 'Astra') {
-                    NovoAgent = Astra;
-                    UpdateAgent();
-
-                }
-
+                //SOBRE EVAL = https://developer.mozilla.org/pt-BR/docs/orphaned/Web/JavaScript/Reference/Global_Objects/eval
+                NovoAgent = eval(reaction.emoji.name);
+                UpdateAgent();
             })
 
 
