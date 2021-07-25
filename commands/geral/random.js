@@ -12,9 +12,22 @@ module.exports = {
 
         let Menu = args[0];
 
-        if (!Menu) return message.reply('Você precisa definir oque sera random (Mapa aleatorio (para usar no modo personalizado): **$random mapa** | Random Agentes: **$random agent** | Você tbm pode filtrar por classes usando  **"c"** apos agent para selecionar controladores | **"d"** para duelistas | **"i"** para Iniciadores | **"s"** para sentinelas. Exemplo: **$random agent s** é eu vou escolher sentinela para você jogar) ') .then(msg => {
-            msg.delete({ timeout: 20000 })
-          })
+        if (!Menu) {
+            const DefaultMesage = new Discord.MessageEmbed()
+                .setColor(profileData.colorComands)
+                .setAuthor(`Castigador de pobres `, client.user.displayAvatarURL())
+                .setTitle(`Tutorial: Como pobres devem ultilizar o comando  \`random\`!`)
+                .setDescription(`
+
+                      '**$random mapa | map | m**'
+                      '**$random agente | agent | a **'
+                    *> $random agente d, duelista | c, controlador | i, iniciador | s, sentinela *
+                                 `)
+
+                .setFooter('Ajudando pobres desde - 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
+
+            message.channel.send(DefaultMesage).then(msg => { setTimeout(() => msg.delete(), 15000) });
+        }
 
 
         if (Menu == 'map' || Menu == 'mapa' || Menu == 'm') {
@@ -32,19 +45,19 @@ module.exports = {
                     break
 
                 case 3:
-                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png', 'Bind')
+                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/2/23/Loading_Screen_Bind.png', 'Bind');
                     break
 
                 case 4:
-                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png', 'Haven')
+                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/7/70/Loading_Screen_Haven.png', 'Haven');
                     break
 
                 case 5:
-                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png', 'Split')
+                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/d/d6/Loading_Screen_Split.png', 'Split');
                     break
 
                 case 6:
-                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png', 'Ascent')
+                    RandomMapa('https://static.wikia.nocookie.net/valorant/images/e/e7/Loading_Screen_Ascent.png', 'Ascent');
                     break
 
             }
@@ -60,35 +73,33 @@ module.exports = {
 
         }
 
-        if (Menu == 'agente' || Menu == 'agent') {
+        if (Menu == 'agente' || Menu == 'agent' || Menu == 'a') {
 
             let SelectClass = args[1];
 
-            if(SelectClass)
-            {
-                if(SelectClass == 'controlador' || SelectClass == 'c'){
+            if (SelectClass) {
+                if (SelectClass == 'controlador' || SelectClass == 'c') {
                     var rating = Math.floor(Math.random() * 4) + 1;
                 }
 
-                if(SelectClass == 'duelista' || SelectClass == 'd'){
+                if (SelectClass == 'duelista' || SelectClass == 'd') {
                     var rating = Math.floor(Math.random() * 5) + 5;
                 }
 
-                if(SelectClass == 'iniciador' || SelectClass == 'i'){
+                if (SelectClass == 'iniciador' || SelectClass == 'i') {
                     var rating = Math.floor(Math.random() * 4) + 10;
                 }
 
-                if(SelectClass == 'sentinela' || SelectClass == 's'){
+                if (SelectClass == 'sentinela' || SelectClass == 's') {
                     var rating = Math.floor(Math.random() * 3) + 14;
                 }
 
             }
-            else if(!SelectClass)
-            {
+            else if (!SelectClass) {
                 var rating = Math.floor(Math.random() * 16) + 1;
             }
-            
-            
+
+
             switch (rating) {
 
                 case 1:

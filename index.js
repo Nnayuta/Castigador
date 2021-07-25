@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const client = new Discord.Client;
+require('discord-buttons')(client);
 const mongoose = require("mongoose");
 
 client.commands = new Discord.Collection();
@@ -11,9 +12,9 @@ client.events = new Discord.Collection();
 })
 
 mongoose.connect(process.env.MONGODB_SRV, {
-    useNewUrlParse: true,
+    useNewUrlParser: true,
     useUnifiedTopology: true,
-    userFindAndModify: false
+    useFindAndModify: false
 }).then(() => {
     console.log('Database Conectada')
 }).catch((err) => { console.log(err); });
