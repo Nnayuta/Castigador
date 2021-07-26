@@ -8,7 +8,7 @@ module.exports = {
     permLevel: 5, // 0 Geral , 1 Fiscal , 2 Admin, 3 SAdmin, 4 ServerOwner, 5 BotOwner
     description: "descricão",
     async execute(client, message, cmd, args, Discord, profileData) {
-        message.reply('TUDO BEM TUDO BEM.. JA VOLTO POBRES!')
+        message.channel.send('JA VOLTO POBRES!')
         process.exit(1);
     }
 }
