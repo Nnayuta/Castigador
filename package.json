@@ -7,8 +7,16 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nnayuta/Castigador.git"
+  },
   "author": "nayuta",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nnayuta/Castigador/issues"
+  },
+  "homepage": "https://github.com/Nnayuta/Castigador#readme",
   "dependencies": {
     "canvas": "^2.8.0",
     "discord-buttons": "^4.0.0",
