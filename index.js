@@ -21,3 +21,5 @@ mongoose.connect(process.env.MONGODB_SRV, {
 
 
 client.login(process.env.DISCORD_TOKEN);
+
+// ADICIONADO APENAS PARA TESTAR
