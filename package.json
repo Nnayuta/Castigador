@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prestart": "cd castigo/ && git pull",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
