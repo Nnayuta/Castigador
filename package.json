@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "git pull origin master",
     "start": "node index.js",
+    "dev": "next dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,6 +26,9 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "mongoose": "^5.13.2",
-    "node-fetch": "^2.6.1"
+    "next": "^11.0.1",
+    "node-fetch": "^2.6.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   }
 }
