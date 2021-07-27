@@ -24,55 +24,55 @@ module.exports = async (Discord, client, message) => {
 
     /// ADICIONAR SEPARADORES AUTOMATICAMENTE A CARA 1 MINUTO
 
-    setInterval(async function(){
-        
+    setInterval(async function () {
+
         const guild = client.guilds.cache.get('830235047512637470');
         guild.members.cache.array().forEach(member => {
-    
+
             const roles = member._roles;
             //VERIFICAR SE JÁ TEM A ROLE ANTES DE TENTA ADICIONAR
             if (!member.roles.cache.has("863203432046788628")) {
-    
+
                 // ADICIONAR SEPARADOR NA SELEÇÃO DE PRONOMES!
                 const femrole = roles.find(id => id == '863203627194515457'); // caso tenha a role Feminino add separador
                 const SemPre = roles.find(id => id == '863203614373707828'); // caso tenha a role Sem Preferencia add separador
                 const maleRole = roles.find(id => id == '863203654404276254'); // caso tenha a role Masculino add separador
-    
-    
+
+
                 if (femrole || SemPre || maleRole) {
                     member.roles.add("863203432046788628").catch(console.error);
                 }
-    
+
             }
-    
+
             if (!member.roles.cache.has("862921323479433216")) {
-    
+
                 const MINECRAFT = roles.find(id => id == '862921835862687784'); // caso tenha a role Minecraft add separador
                 const VALORANT = roles.find(id => id == '832807085795835905'); // caso tenha a role Valorant add separador
-    
+
                 if (MINECRAFT || VALORANT) {
-    
+
                     member.roles.add("862921323479433216").catch(console.error);
-    
+
                 }
             }
-    
+
         });
-   }, 900000)
+    }, 900000)
 
-   // NÃO DEIXA SAIR DA SALA CASTIGO
+    // NÃO DEIXA SAIR DA SALA CASTIGO
 
-   setInterval(async function(){
+    setInterval(async function () {
 
-    const guild = client.guilds.cache.get('830235047512637470');
-    guild.members.cache.array().forEach(member => {
+        const guild = client.guilds.cache.get('830235047512637470');
+        guild.members.cache.array().forEach(member => {
 
-        if(member.roles.cache.has("862784246530441307")){
-           member.voice.setChannel("857488932212178964").catch(console.error);
-        }
+            if (member.roles.cache.has("862784246530441307")) {
+                member.voice.setChannel("857488932212178964").catch(console.error);
+            }
 
-   });
-}, 5000)
+        });
+    }, 5000)
 
     console.log('ESTOU ONLINE E PRONTO PARA DESTRUIR POBRES');
 

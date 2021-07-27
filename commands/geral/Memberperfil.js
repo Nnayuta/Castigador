@@ -78,53 +78,25 @@ module.exports = {
 
         async function VerSeuPerfil() {
 
-            let permname;
+            console.log('EM BREVE');
 
-            switch (profileData.permLevel) {
-
-                case '1':
-
-                    break
-
-                case '2':
-
-                    break
-
-                case '3':
-
-                    break
-                case '4':
-
-                    break
-
-                case '5':
-
-                    break
-
-            }
-
-            const SeuPerfil = new Discord.MessageEmbed()
+            /*
+            var userinf = new Discord.MessageEmbed()
+                .setAuthor(message.author.username, message.author.avatarURL)
+                .setThumbnail(message.author.avatarURL)
+                .setDescription("Guild: " + message.guild)
                 .setColor(profileData.colorComands)
-                .setAuthor(`Perfil de ${message.author.nickname}`, message.author.displayAvatarURL())
-                .setThumbnail(message.author.displayAvatarURL())
-                .setDescription(
-                    `
-                \u200B
-                ‼️ - Permissão
-                ~ ${permname}
-                \u200B
-                🪙 - PobreCoin:
-                ~ ${profileData.coins}
-                \u200B
-                🔱 - Nivel:
-                ~ ${profileData.Level}
-                \u200B
-                🎂 - Aniversário:
-                ~ ${profileData.Birthday}
+                .addField("Full Username: ", `${message.author.username}#${message.author.discriminator}`, true)
+                .addField("ID:", message.author.id, true)
+                .addField('Current Nickname: ', message.author.toString(), true)
+                .addField("Current Status: ", message.author.presence.status, true)
+                .addField("Currently Playing: ", message.author.presence.game || "Nothing", true)
+                .addField("Joined On: ", message.member.joinedAt, true)
+                .addField("Account Type: ", client[message.author.bot], true)
+                .setFooter("aaaaaaaaaaaa", client.user.avatarURL)
 
-                `)
-
-            message.channel.send(SeuPerfil);
+            message.channel.send(userinf);
+            */
 
         }
 
