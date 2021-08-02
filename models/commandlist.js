@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 
 let schema = new mongoose.Schema({
-    cmd: String,
+    categ: String,
+    cmdName: String,
     aliases: String,
     permlevel: Number,
     desc: String,
