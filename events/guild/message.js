@@ -9,6 +9,7 @@ module.exports = async (Discord, client, message) => {
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+    /*
     let profileData;
     try {
         profileData = await profileModel.findOne({ userID: message.author.id });
@@ -29,9 +30,9 @@ module.exports = async (Discord, client, message) => {
     } catch (err) {
         console.log(err);
     }
-
+*/
     //
-
+/*
     let valorantProfile;
     try {
         valorantProfile = await ValorantModel.findOne({ userID: message.author.id });
@@ -54,6 +55,7 @@ module.exports = async (Discord, client, message) => {
     } catch (err) {
         console.log(err);
     }
+    */
 
     //
 
@@ -63,10 +65,12 @@ module.exports = async (Discord, client, message) => {
     const command = client.commands.get(cmd) ||
         client.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
-    const userInfo = await profileModel.findOne({ userID: message.author.id });
-    const CommandPerm = command.permLevel;
+   // const userInfo = await profileModel.findOne({ userID: message.author.id });
+   // const CommandPerm = command.permLevel;
 
-    if (userInfo.permLevel < CommandPerm) return message.reply('Você não tem permissão para usar este comando');
+    commandExecute()
+
+    //if (userInfo.permLevel < CommandPerm) return message.reply('Você não tem permissão para usar este comando');
 
     async function commandExecute() {
         try {
@@ -75,7 +79,7 @@ module.exports = async (Discord, client, message) => {
             message.reply("Não disponivel"); console.log(err);
         }
     }
-
+/*
     if (command.cooldown) {
         const current_time = Date.now();
         const cooldown_amount = (command.cooldown) * 1000
@@ -114,4 +118,5 @@ module.exports = async (Discord, client, message) => {
     } else {
         commandExecute();
     };
+    */
 }

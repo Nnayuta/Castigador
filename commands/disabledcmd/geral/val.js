@@ -1,6 +1,6 @@
 require('dotenv').config();
-const profileModel = require('../../models/profileSchema');
-const ValorantModel = require('../../models/valorantSchema');
+const profileModel = require('../../../models/profileSchema');
+const ValorantModel = require('../../../models/valorantSchema');
 const { MessageEmbed, MessageButton } = require('discord-buttons');
 const Canvas = require('canvas');
 
@@ -341,7 +341,7 @@ module.exports = {
                     .setDescription(`Valorant: rank atualizado para: `)
                     .setFooter('Ajudando pobres desde 2021', 'https://image.flaticon.com/icons/png/512/1396/1396219.png')
                 message.channel.send(UpdateRank).then(msg => { setTimeout(() => msg.delete(), 5000) });
-
+                
                 switch (reaction.emoji.name) {
 
                     case 'Ferro1':
